@@ -18,6 +18,29 @@ expo-env.d.ts
 *.key
 *.mobileprovision
 
+# iOS (exclude entire folder for Expo projects)
+ios/
+
+# Android (exclude entire folder for Expo projects)
+android/
+
+# If you need to track ios/android, use these instead:
+# ios/Pods/
+# ios/build/
+# ios/DerivedData/
+# ios/*.xcworkspace/xcuserdata/
+# ios/*.xcodeproj/xcuserdata/
+# ios/*.xcodeproj/project.xcworkspace/xcuserdata/
+# android/app/build/
+# android/build/
+# android/.gradle/
+# android/app/release/
+# android/app/debug/
+# android/gradle/
+# android/gradlew
+# android/gradlew.bat
+# android/local.properties
+
 # Metro
 .metro-health-check*
 
@@ -32,8 +55,34 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env
 
 # typescript
 *.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+
+# OS generated files
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Lock files (choose one based on your package manager)
+# yarn.lock
+# package-lock.json
+# bun.lockb
 
 app-example

@@ -1,75 +1,234 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { IconSymbol } from "@/components/ui/IconSymbol";
+import { Colors } from "@/constants/Colors";
+import { router } from "expo-router";
+import { SymbolView } from "expo-symbols";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <ThemedView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
+          <TouchableOpacity style={styles.profileButton}>
+            <SymbolView 
+              name="person.circle.fill" 
+              size={32} 
+              tintColor={Colors.light.snapPrimary}
+            />
+          </TouchableOpacity>
+        </View>
+        
+        <ThemedText type="title" style={styles.headerTitle}>
+          SnapConnect
+        </ThemedText>
+        
+        <View style={styles.headerRight}>
+          <TouchableOpacity style={styles.headerButton}>
+            <IconSymbol name="magnifyingglass" size={24} color={Colors.light.text} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.headerButton}>
+            <SymbolView name="plus" size={24} tintColor={Colors.light.text} />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Stories Section */}
+      <View style={styles.storiesSection}>
+        <ThemedText type="subtitle" style={styles.sectionTitle}>
+          Stories
+        </ThemedText>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.storiesScroll}>
+          <TouchableOpacity style={styles.storyItem}>
+            <View style={styles.addStoryCircle}>
+              <SymbolView name="plus" size={20} tintColor="#fff" />
+            </View>
+            <ThemedText style={styles.storyText}>Add Story</ThemedText>
+          </TouchableOpacity>
+          
+          {/* Sample friends' stories */}
+          {['Friend 1', 'Friend 2', 'Friend 3', 'Friend 4'].map((friend, index) => (
+            <TouchableOpacity key={index} style={styles.storyItem}>
+              <View style={styles.storyCircle}>
+                <SymbolView name="person.fill" size={24} tintColor={Colors.light.snapPrimary} />
+              </View>
+              <ThemedText style={styles.storyText}>{friend}</ThemedText>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
+      {/* Chat/Friends List */}
+      <ThemedView style={styles.chatSection}>
+        <ThemedText type="subtitle" style={styles.sectionTitle}>
+          Chats
+        </ThemedText>
+        
+        <ScrollView style={styles.chatList}>
+          {/* Sample chat items */}
+          {[
+            { name: 'Best Friend', message: 'Hey! How are you?', time: '2m' },
+            { name: 'College Group', message: 'Anyone up for lunch?', time: '1h' },
+            { name: 'Family', message: 'See you tonight!', time: '3h' },
+            { name: 'Work Team', message: 'Meeting at 3pm', time: '5h' },
+          ].map((chat, index) => (
+            <TouchableOpacity key={index} style={styles.chatItem}>
+              <View style={styles.chatAvatar}>
+                <SymbolView name="person.fill" size={20} tintColor={Colors.light.snapPrimary} />
+              </View>
+              <View style={styles.chatContent}>
+                <ThemedText style={styles.chatName}>{chat.name}</ThemedText>
+                <ThemedText style={styles.chatMessage}>{chat.message}</ThemedText>
+              </View>
+              <ThemedText style={styles.chatTime}>{chat.time}</ThemedText>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </ThemedView>
+
+      {/* Camera Button */}
+      <TouchableOpacity 
+        style={styles.cameraButton}
+        onPress={() => router.push('/camera' as any)}
+      >
+        <SymbolView 
+          name="camera.fill" 
+          size={28} 
+          tintColor="#fff"
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      </TouchableOpacity>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+  },
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingTop: 60,
+    paddingBottom: 16,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  headerLeft: {
+    flex: 1,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  headerTitle: {
+    flex: 2,
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  headerRight: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 12,
+  },
+  headerButton: {
+    padding: 8,
+  },
+  profileButton: {
+    padding: 4,
+  },
+  storiesSection: {
+    paddingVertical: 16,
+  },
+  sectionTitle: {
+    paddingHorizontal: 16,
+    marginBottom: 12,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  storiesScroll: {
+    paddingHorizontal: 12,
+  },
+  storyItem: {
+    alignItems: 'center',
+    marginHorizontal: 8,
+    width: 70,
+  },
+  addStoryCircle: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: Colors.light.snapPrimary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 4,
+  },
+  storyCircle: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#f0f0f0',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 4,
+    borderWidth: 2,
+    borderColor: Colors.light.snapPrimary,
+  },
+  storyText: {
+    fontSize: 12,
+    textAlign: 'center',
+  },
+  chatSection: {
+    flex: 1,
+    paddingTop: 16,
+  },
+  chatList: {
+    flex: 1,
+  },
+  chatItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  chatAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#f0f0f0',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  chatContent: {
+    flex: 1,
+  },
+  chatName: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 2,
+  },
+  chatMessage: {
+    fontSize: 14,
+    color: '#666',
+  },
+  chatTime: {
+    fontSize: 12,
+    color: '#999',
+  },
+  cameraButton: {
     position: 'absolute',
+    right: 20,
+    bottom: 100,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: Colors.light.snapPrimary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
